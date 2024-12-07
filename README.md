@@ -3,6 +3,7 @@
 **Cóndor Pasa** es un emocionante juego en el que controlas a un majestuoso cóndor que vuela a través de un desafiante paisaje lleno de volcanes, incluyendo el famoso volcán **Misti** de Arequipa, Perú. ¡Tu objetivo es navegar a través de los obstáculos y alcanzar la mayor distancia posible!
 
 ## 🖼️ Vista previa del juego
+![Desmostracion del juego](imagenesReadme/nive1.gif)
 ![Condor Pasa](imagenesReadme/2024-12-04_22-13.png)
 
 ## 🎮 Características principales
