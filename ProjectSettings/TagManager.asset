@@ -8,6 +8,11 @@ TagManager:
   - peligroso
   - combustible
   - siguienteNivel
+  - ColisionPeligrosa
+  - toNivel2
+  - toNivel3
+  - toNivel4
+  - toFinal
   layers:
   - Default
   - TransparentFX
