@@ -2,17 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class controlCondor : MonoBehaviour
 {
+    public Image barraVida;
+    [SerializeField] public float vidaActual=500f;
+    [SerializeField] public float vidaMaxima = 500f;
     [SerializeField] private float parametroRotation = 90f;
     [SerializeField] private float parametroImpulso = 50f;
+    [SerializeField] private float consumoVidaPorSegundo = 5f;
     Rigidbody rigidbody;
     Transform transform;
     private bool isRotationFrozen = false;
     // Start is called before the first frame update
     void Start()
     {
+         GameObject canvas = GameObject.Find("Canvas");
+         Transform background = canvas.transform.Find("background");
+         barraVida = background.transform.Find("barraVida").GetComponent<Image>();
+
+            // Verificar si la barraVida fue asignada correctamente
+    if (canvas != null)
+    {
+        //barraVida = canvas.transform.Find("barraVida").GetComponent<Image>();
+        Debug.Log("La barra de vida ha sido asignada correctamente.");
+    }
+    else
+    {
+        Debug.LogError("No se encontró la barra de vida.");
+    }
         rigidbody = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
     }
@@ -20,8 +39,15 @@ public class controlCondor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        barraVida.fillAmount = vidaActual/vidaMaxima;
         Impulso();
         Rotacion();
+        if(vidaActual<=0){
+             Scene currentScene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(currentScene.name);
+                print("muerto por vida");
+
+        }
 
     }
     private void Impulso()
@@ -29,7 +55,9 @@ public class controlCondor : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigidbody.AddRelativeForce(Vector3.up*Time.deltaTime*parametroImpulso);
+
             print("impulso");
+            vidaActual -=consumoVidaPorSegundo*Time.deltaTime;
               // Reactivar rotación si estaba congelada
             if (isRotationFrozen)
             {
@@ -57,6 +85,7 @@ public class controlCondor : MonoBehaviour
         switch (collision.gameObject.tag){
             case "combustible":
                 print("combustible");
+                vidaActual = vidaMaxima;
                  rigidbody.freezeRotation = true;
                 isRotationFrozen = true;
                 break;
@@ -82,7 +111,8 @@ public class controlCondor : MonoBehaviour
                 SceneManager.LoadScene("nivel1");
                 break;
             default:
-                SceneManager.LoadScene("nivel1");
+                Scene currentScene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(currentScene.name);
                 print("muerto");
                 break;
         }
